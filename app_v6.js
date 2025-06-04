@@ -280,7 +280,7 @@ async function switchToBNBTestnet() {
                             symbol: 'tBNB',
                             decimals: 18
                         },
-                        rpcUrls: ['https://worldchain-sepolia.g.alchemy.com/public'],
+                        rpcUrls: ['https://worldchain-sepolia.explorer.alchemy.com'],
                         blockExplorerUrls: [BSCSCAN_TESTNET_URL]
                     }],
                 });
@@ -300,6 +300,7 @@ async function switchToBNBTestnet() {
 
 /**
  *   rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
+ *   rpcUrls: ['https://worldchain-sepolia.g.alchemy.com/public'],
  * Busca NFTs da carteira conectada usando a API REST Moralis v2
  */
 async function fetchNFTs() {
