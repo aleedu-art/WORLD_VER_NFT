@@ -14,7 +14,8 @@ const MORALIS_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjVlYT
 //const BNB_TESTNET_CHAIN_ID = ["0x61", "97"]; // Chain ID da BNB Smart Chain Testnet (hex e decimal)
 const BNB_TESTNET_CHAIN_ID = ["0x61", "4801"]; // Chain ID da BNB Smart Chain Testnet (hex e decimal)
 const BNB_TESTNET_CHAIN_NAME = "World testnet"; // Nome da chain para a API Moralis v2
-const BSCSCAN_TESTNET_URL = "https://testnet.bscscan.com";
+//const BSCSCAN_TESTNET_URL = "https://testnet.bscscan.com";
+const BSCSCAN_TESTNET_URL = "https://sepolia.worldscan.org/";
 const OPENSEA_TESTNET_URL = "https://testnets.opensea.io";
 
 // Variáveis globais
