@@ -1,5 +1,5 @@
 /**
- * Visualizador de NFTs para BNB Smart Chain Testnet usando Moralis API v2
+ * Visualizador de NFTs para World Testnet usando Moralis API v2
  * Versão simplificada com foco em compatibilidade máxima
  * Versão 6: Layout aprimorado com formatação de descrição
  */
@@ -11,10 +11,10 @@
 const MORALIS_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjVlYTk4NWU0LTUzZDMtNDA2Yy05ZmMxLTBlODk3NjMwOWQxNyIsIm9yZ0lkIjoiNDQ5MzU0IiwidXNlcklkIjoiNDYyMzQwIiwidHlwZUlkIjoiMTk2MDdiMjUtNDM0Yi00M2Q2LTljNmUtNzcyNjVmN2UwYjNlIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3NDgyOTUyMjMsImV4cCI6NDkwNDA1NTIyM30.KwwtCbfsIYg-L3nytcZ7tYCXHIiHxfupXsnYGbwtSH0" ; // Substitua pela sua API key do Moralis
 
  
-//const BNB_TESTNET_CHAIN_ID = ["0x61", "97"]; // Chain ID da BNB Smart Chain Testnet (hex e decimal)
-const BNB_TESTNET_CHAIN_ID = ["0x61", "4801"]; // Chain ID da BNB Smart Chain Testnet (hex e decimal)
-const BNB_TESTNET_CHAIN_NAME = "World testnet"; // Nome da chain para a API Moralis v2
-//const BSCSCAN_TESTNET_URL = "https://testnet.bscscan.com";
+
+const WORLD_TESTNET_CHAIN_ID = ["0x61", "4801"]; // Chain ID da World Testnet (hex e decimal)
+const WORLD_TESTNET_CHAIN_NAME = "World testnet"; // Nome da chain para a API Moralis v2
+
 const BSCSCAN_TESTNET_URL = "https://sepolia.worldscan.org/";
 const OPENSEA_TESTNET_URL = "https://testnets.opensea.io";
 
@@ -167,11 +167,11 @@ async function updateWalletInfo() {
 }
 
 /**
- * Verifica se um chainId corresponde à BNB Testnet
+ * Verifica se um chainId corresponde à World Testnet
  * @param {string} chainId - Chain ID para verificar
- * @returns {boolean} - true se for BNB Testnet, false caso contrário
+ * @returns {boolean} - true se for World Testnet, false caso contrário
  */
-function isBNBTestnet(chainId) {
+function isWORLDTestnet(chainId) {
     if (!chainId) return false;
     
     // Converter para string para garantir comparação correta
@@ -179,7 +179,7 @@ function isBNBTestnet(chainId) {
     console.log("Verificando chainId:", chainIdStr);
     
     // Verificar diretamente se está na lista
-    if (BNB_TESTNET_CHAIN_ID.includes(chainIdStr)) {
+    if (WORLD_TESTNET_CHAIN_ID.includes(chainIdStr)) {
         console.log("Chain ID encontrado diretamente na lista");
         return true;
     }
@@ -188,7 +188,7 @@ function isBNBTestnet(chainId) {
     if (chainIdStr.startsWith('0x')) {
         const decimal = parseInt(chainIdStr, 16).toString();
         console.log("Convertido de hex para decimal:", decimal);
-        if (BNB_TESTNET_CHAIN_ID.includes(decimal)) {
+        if (WORLD_TESTNET_CHAIN_ID.includes(decimal)) {
             console.log("Chain ID encontrado após conversão hex->decimal");
             return true;
         }
@@ -198,7 +198,7 @@ function isBNBTestnet(chainId) {
         try {
             const hex = '0x' + parseInt(chainIdStr).toString(16);
             console.log("Convertido de decimal para hex:", hex);
-            if (BNB_TESTNET_CHAIN_ID.includes(hex)) {
+            if (WORLD_TESTNET_CHAIN_ID.includes(hex)) {
                 console.log("Chain ID encontrado após conversão decimal->hex");
                 return true;
             }
@@ -218,8 +218,8 @@ function updateNetworkInfo() {
     
     console.log("Atualizando informações da rede. Chain ID atual:", currentChainId);
     
-    // Verificar se está na BNB Testnet
-    if (isBNBTestnet(currentChainId)) {
+    // Verificar se está na World Testnet
+    if (isWORLDTestnet(currentChainId)) {
         document.getElementById('network-name').textContent = "WORLD Chain Testnet";
         document.getElementById('network-badge').style.display = "inline";
     } else {
@@ -238,12 +238,12 @@ function updateNetworkInfo() {
 }
 
 /**
- * Verifica se está na rede correta (BNB Testnet) e sugere mudar se necessário
+ * Verifica se está na rede correta (World Testnet) e sugere mudar se necessário
  */
 async function checkCorrectNetwork() {
     console.log("Verificando se está na rede correta...");
     
-    if (!isBNBTestnet(currentChainId)) {
+    if (!isWORLDTestnet(currentChainId)) {
         console.log("Rede incorreta. Solicitando mudança para WORLD Testnet");
         showAlert("Você não está na WORLD Chain Testnet. Clique em 'Mudar Rede' para continuar.", "warning", true);
     } else {
@@ -259,9 +259,9 @@ async function checkCorrectNetwork() {
 }
 
 /**
- * Solicita mudança para a rede BNB Testnet
+ * Solicita mudança para a rede World Testnet
  */
-async function switchToBNBTestnet() {
+async function switchToWORLDTestnet() {
     try {
         await window.ethereum.request({
             method: 'wallet_switchEthereumChain',
@@ -276,8 +276,8 @@ async function switchToBNBTestnet() {
                         chainId: "0x61",
                         chainName: 'WORLD Chain Testnet',
                         nativeCurrency: {
-                            name: 'tBNB',
-                            symbol: 'tBNB',
+                            name: 'TWLD',
+                            symbol: 'TWLD',
                             decimals: 18
                         },
                         rpcUrls: ['https://worldchain-sepolia.explorer.alchemy.com'],
@@ -309,7 +309,7 @@ async function fetchNFTs() {
         return;
     }
     
-    if (!isBNBTestnet(currentChainId)) {
+    if (!isWORLDTestnet(currentChainId)) {
         showAlert("Por favor, mude para a rede WORLD Testnet para continuar.", "warning");
         return;
     }
@@ -774,7 +774,7 @@ function showAlert(message, type = 'info', withAction = false) {
     
     // Adicionar evento ao botão de ação se existir
     if (withAction) {
-        document.getElementById(`${alertId}-action`).addEventListener('click', switchToBNBTestnet);
+        document.getElementById(`${alertId}-action`).addEventListener('click', switchToWORLDTestnet);
     }
     
     // Auto-remover após 10 segundos
